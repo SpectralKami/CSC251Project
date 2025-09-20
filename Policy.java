@@ -2,6 +2,7 @@
  * This is a policy class that will model an insurance policy for one person
  * This will include  
  * Policy
+ *  Number; Policy Name; First & Last Name; Age; Smoking Status; Height; Weight - Class fields
  * 
  * No arg Constructor 
  * arg Constructor
