@@ -21,7 +21,7 @@
  * AVOID STALE DATA (BMI)
  */
 import java.util.Scanner;
-public class Policy
+public class Policy 
 {
     //Creating the Scanner class as a field object 
     Scanner scnr = new Scanner(System.in);
