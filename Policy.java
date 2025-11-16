@@ -26,31 +26,23 @@ public class Policy
     //Creating the Scanner class as a field object 
     Scanner scnr = new Scanner(System.in);
 
-    // ==== Personal Information ====
-    private String firstName;
-    private String lastName;
-    private int age;
-    
-    // ==== Medical Information ====
-    private boolean isSmoker;
-    private double height;
-    private double weight;
-
     // === Policy Informaiton====
     private int policyNumber;
     private String providerName;
+    private PolicyHolder holder;
+
+    // === Static Field Prices ===
+    //Base Cost
+    static int Base_Ammount = 600;
+    static double Smoker_Fee = 100.0;
+    static double Age_Fee = 50.0;
 
     /**
      * @param NoArg constructor
      */
     public Policy()
     {
-        firstName = "";
-        lastName = "";
-        age = 0;
-        isSmoker = false;
-        height = 0.0;
-        weight = 0.0;
+        holder = new PolicyHolder();
         policyNumber = 0;
         providerName = "";
     }
@@ -70,12 +62,7 @@ public class Policy
         boolean smoker, double height, double weight, 
         int Policy_Number, String Provider_Name)
     {
-        firstName = first_name;
-        lastName = last_name;
-        this.age = age;
-        isSmoker = smoker;
-        this.height = height;
-        this.weight = weight;
+        holder = new PolicyHolder(first_name, last_name, age, smoker, height, weight);
         policyNumber = Policy_Number;
         providerName = Provider_Name;
     }
@@ -100,148 +87,20 @@ public class Policy
         this.policyNumber = Policy_Numer;
     }
 
-    /**
-     * Sets the first name of the person
-     * @param firstName
-     */
-    public void setFirstName(String First_Name)
-    {
-        this.firstName = First_Name;
-    }
-
-    /**
-     * Sets the last name of the person
-     * @param lastName
-     */
-    public void setLastName(String Last_Name)
-    {
-        this.lastName = Last_Name;
-    }
-
-    /**
-     * Sets the age of the person
-     * @param age 
-     */
-    public void setAge(int age)
-    {
-        this.age = age;
-    }
-
-    /**
-     * Sets the smoking smoking habbits of the person
-     * @param isSmoker 
-     */
-    public void isSmoker(boolean isSmoker)
-    {
-        this.isSmoker = isSmoker;
-    }
-
-    /**
-     * Sets the height of the policy holder
-     * @param height
-     */
-    public void setHeight(double height)
-    {
-        this.height = height;
-    }
-
-    /**
-     * Sets the weight of the polciy Holder
-     * @param weight
-     */
-    public void setWeight(double weight)
-    {
-        this.weight = weight;
-    }
-
-
     //==== Getter Methods ====
 
     /**
      * gets the policy number
      * @return Policy_Number
      */
-    public int getPolicyNumber()
-    {
-        return policyNumber;
-    }
+    public int getPolicyNumber() { return policyNumber; }
 
     /**
      * gets the Provider Name
      * @return providerName
      */
-    public String getProviderName()
-    {
-        return providerName;
-    }
+    public String getProviderName() { return providerName; }
 
-    /**
-     * Gets the First name of the policy holder
-     * @return firstName
-     */
-    public String getFirstName()
-    {
-        return firstName;
-    }
-
-    /**
-     * gets the last name of the person
-     * @return lastName
-     */
-    public String getLastName()
-    {
-        return lastName;
-    }
-
-    /**
-     * gets the age of the person
-     * @return age 
-     */
-    public int getAge()
-    {
-        return age;
-    }
-
-    /**
-     * gets the smoking smoking habbits of the person
-     * @return isSmoker 
-     */
-    public String getSmokerStatus()
-    {
-        if(isSmoker) return "smoker";
-        return "non-smoker";
-    }
-
-    /**
-     * gets the height of the policy holder
-     * @return height
-     */
-    public double getHeight()
-    {
-        return height;
-    }
-
-    /**
-     * gets the weight of the polciy Holder
-     * @return weight
-     */
-    public double getWeight()
-    {
-        return weight;
-    }
-
-    // ==== Dependent Classes ====
-
-
-    /**
-     * Gets the policy holders BMI based on input
-     *  BMI = (Weight[pound] * 703) / (Height^2[inch])
-     * @return PolicyHolderBMI (Body Mass Index)
-     */
-    public double getBMI()
-    {
-        return (weight * 703) / Math.pow(height, 2.0);
-    }
 
     /**
      * Gets the policy holders BMI Fee
@@ -250,8 +109,8 @@ public class Policy
      */
     public double getBMIFee()
     {
-        if(getBMI() > 35) return (getBMI() - 35) * 20; 
-        return 0.0;
+        double BMI = holder.getBMI();
+        return (BMI > 35) ? ((BMI - 35) * 20) : 0.0; 
     }
 
     /**
@@ -262,26 +121,89 @@ public class Policy
         //running toatl
         double total = 0.0;
 
-        //Base Cost
-        int Base_Ammount = 600;
-
-        //Static Fee Prices
-        double Smoker_Fee = 100.0;
-        double Age_Fee = 50.0;
-
         //Adding base cost 
         total += Base_Ammount;
 
-        //Adding BMI Fees if applicable 
-        if(getBMI() > 35) total += getBMIFee(); 
+        //Getting user information
+        double BMI = holder.getBMI();
+        int age = holder.getAge();
+        boolean smoker = holder.getSmokerStatus();
 
-        //Looking for fees
+
+        //Adding BMI Fees if applicable 
+        //BMI fee - if applicable
+        if(BMI > 35) total += getBMIFee(); 
+
+        //Age fee - if applicable
         if(age > 50) total += Age_Fee;
 
-        //Looking if Smoker fees are applicable
-        if(isSmoker) total += Smoker_Fee;
+        //Smoker fee - if applicable
+        if(smoker) total += Smoker_Fee;
         
         
         return total;
     }
+
+    // === Holder === Update Fields
+    public void updateHolderField(String field, String value)
+    {
+        if(field == null) throw new IllegalArgumentException("Field Required");
+        switch(field.toLowerCase())
+        {
+            case "firstname":
+            case "first name":
+                holder.setFirstName(value);
+                break;
+        
+            case "lastname":
+            case "last name":
+                holder.setLastName(value);
+                break;
+        
+        
+            case "age":
+                try{
+                    int age = Integer.parseInt(value);
+                    if (age < 0) throw new IllegalArgumentException("age must be >= 0");
+                    holder.setAge(age);
+                }catch(NumberFormatException e)
+                {
+                    throw new IllegalArgumentException("Invalid age: " + value, e);
+                }
+                break;
+        
+        
+            case "height":
+                try {
+                    double height = Double.parseDouble(value);
+                    if (height <= 0) throw new IllegalArgumentException("height must be > 0");
+                    holder.setHeight(height);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("invalid height" + value, e);
+                }
+                break;
+        
+        
+            case "weight":
+                try {
+                    double weight = Double.parseDouble(value);
+                    if(weight <= 0) throw new IllegalArgumentException("weight must be >0");
+                    holder.setWeight(weight);
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("invalid weight: " + value, e);
+                }
+                break;
+        
+        
+            case "smoker":
+            case "isSmoker":
+                String string = value.trim().toLowerCase();
+                boolean isSmoker = (string.equals("true") || string.equals("yes") || string.startsWith("s"));
+                holder.isSmoker(isSmoker);
+                break;
+            default:
+                throw new IllegalArgumentException("unkown field: " + field);
+        }
+    }
+
 }
