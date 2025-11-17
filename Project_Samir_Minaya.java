@@ -68,35 +68,13 @@ public class Project_Samir_Minaya
         //Display information for each policy
         for(int i = 0; i < policies.size(); i++)
         {
-            printPolicyInformation(policies.get(i));
+            System.out.println(policies.get(i)); //Prints the toString method
+            System.out.println(); //Indentation
         }
 
         //Display the counts
-        System.out.println("There were  " + smokerCount + " Policy holders who are smokers.");
-        System.out.println("There were " + nonSmokerCount + " Policy holders who are non-smokers.");
+        System.out.println("There were " + Policy.getPolicyCount() + "Policy objects created.");
+        System.out.println("The number of policies with a smoker is: " + smokerCount);
+        System.out.println("The number of policies with a non-smoker is:" + nonSmokerCount);
     }    
-
-    public static void printPolicyInformation(Policy policy)
-    {
-        System.out.printf("\n%s %d\n\n", "Policy Number: ", policy.getPolicyNumber());
-
-        System.out.printf("%s %s \n\n", "Provider Name: ", policy.getProviderName());
-
-        System.out.printf("%s %s \n\n", "Policyholder’s First Name: ", policy.getFirstName());
-
-        System.out.printf("%s %s \n\n", "Policyholder’s Last Name: ", policy.getLastName());
-
-        System.out.printf("%s %d \n\n", "Policyholder’s Age: ", policy.getAge());
-
-        System.out.printf("%s %s \n\n", "Policyholder’s Smoking Status (Smoker/non-smoker): ", policy.getSmokerStatus());
-
-        System.out.printf("%s %.1f inches\n\n", "Policyholder’s Height: ", policy.getHeight());
-
-        System.out.printf("%s %.1f pounds\n\n", "Policyholder’s Weight: ", policy.getWeight());
-
-        System.out.printf("%s %.2f \n\n", "Policyholder’s BMI: ", policy.getBMI());
-
-        System.out.printf("%s $%.2f \n\n", "Policy Price: ", policy.getPolicyPrice());
-        System.out.println();
-    }
 }
