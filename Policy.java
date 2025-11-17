@@ -37,6 +37,8 @@ public class Policy
     static double Smoker_Fee = 100.0;
     static double Age_Fee = 50.0;
 
+    private static int policyCount = 0;
+
     /**
      * @param NoArg constructor
      */
@@ -45,6 +47,7 @@ public class Policy
         holder = new PolicyHolder();
         policyNumber = 0;
         providerName = "";
+        policyCount++;
     }
 
     /**
@@ -65,6 +68,7 @@ public class Policy
         holder = new PolicyHolder(first_name, last_name, age, smoker, height, weight);
         policyNumber = Policy_Number;
         providerName = Provider_Name;
+        policyCount++;
     }
 
     // ==== Setter Methods for all fields ====
@@ -101,6 +105,16 @@ public class Policy
      */
     public String getProviderName() { return providerName; }
 
+    /**
+     * Gets a copy of the PolicyHolder object (to prevent security holes)
+     * @return policyHolder
+     */
+    public PolicyHolder getPolicyHolder()
+    {
+        return new PolicyHolder(holder.getFirstName(), holder.getLastName(), holder.getAge(),
+                                holder.getSmokerStatus(), holder.getHeight(), holder.getWeight());
+    }
+
 
     /**
      * Gets the policy holders BMI Fee
@@ -112,6 +126,12 @@ public class Policy
         double BMI = holder.getBMI();
         return (BMI > 35) ? ((BMI - 35) * 20) : 0.0; 
     }
+
+    /**
+     * Gets the static count of Policy Objects created
+     * @return policyCount
+     */
+    public static int getPolicyCount() { return policyCount; }
 
     /**
      * Returns the total policy price
