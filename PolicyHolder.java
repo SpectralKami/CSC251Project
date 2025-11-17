@@ -124,5 +124,22 @@ public class PolicyHolder
         if(isSmoker) return "smoker";
         return "non-smoker";
     }
+    public String toString()
+    {
+        return String.format("Policyholder's First Name: %s\n\n" 
+                    + "PolicyHolder's Last Name: %s\n\n"
+                    +"PolicyHolder's Age: %d\n\n"
+                    +"Policyholder's Smoking Status (Y/N): %s\n\n"
+                    +"Policholder's Height: %.1f inches\n\n"
+                    +"Policholder's Weight: %.1f pounds\n\n"
+                    +"Policyholder's BMI: %.2f\n\n",
+                    firstName,
+                    lastName,
+                    age,
+                    toStringIsSmoker(),
+                    height,
+                    weight,
+                    getBMI());
+    }
 
 }
