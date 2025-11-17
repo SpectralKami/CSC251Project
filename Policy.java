@@ -228,7 +228,7 @@ public class Policy
 
     public String toString()
     {
-        return String.format("Polic Number: %d\n\nProvider Name: %s\n\n%sPolicy Price: $%.2f",
+        return String.format("Policy Number: %d\n\nProvider Name: %s\n\n%sPolicy Price: $%.2f",
                             policyNumber,
                             providerName,
                             holder.toString(),
